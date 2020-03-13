@@ -6,7 +6,7 @@ use Zend\Form\View\Helper\FormSelect as ZendFormSelect;
 
 class FormSelect extends ZendFormSelect
 {
-	public function __invoke($name, $emptyOption, $valueOptions, $keySelected, $options = null){
+	public function __invoke($name = null, $emptyOption = null, $valueOptions = null, $keySelected = null, $options = null){
 		$options['size']	= !empty($options['size']) ? $options['size'] : 1;
 		$options['class']	= !empty($options['class']) ? $options['class'] : 'input-sm';
 		

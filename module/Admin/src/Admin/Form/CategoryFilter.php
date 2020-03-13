@@ -48,10 +48,15 @@ class CategoryFilter extends InputFilter {
 		
 		
 		// Group
-// 		$this->add(array(
-// 				'name'		=> 'group',
-// 				'required'	=> true,
-// 		));
+ 		$this->add(array(
+ 				'name'		=> 'group',
+ 				'required'	=> true,
+ 		));
+		// Group
+		$this->add(array(
+			'name'		=> 'time',
+			'required'	=> true,
+		));
 		
 		// Status
 		$this->add(array(

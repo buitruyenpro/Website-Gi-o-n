@@ -2,10 +2,10 @@
 return array(
 	'modules'	=> array(
 // 			'ZendDeveloperTools',
-			'RtHeadtitle',
+//			'RtHeadtitle',
 			'AcMailer',
 			'Admin',
-			'Shop',
+			'Customer',
 	),
 	'module_listener_options'	=> array(
 			'module_paths'		=> array(

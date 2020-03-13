@@ -24,7 +24,7 @@ class Regex extends AbstractValidator
      */
     protected $messageTemplates = array(
         self::INVALID   => "Invalid type given. String, integer or float expected",
-        self::NOT_MATCH => "The input does not match against pattern '%pattern%'",
+        self::NOT_MATCH => "Địa chỉ Email bạn nhập không đúng định dạng.",
         self::ERROROUS  => "There was an internal error while using the pattern '%pattern%'",
     );
 

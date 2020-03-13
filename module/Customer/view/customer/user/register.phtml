@@ -1,0 +1,28 @@
+<?php
+	$this->headTitle('Đăng ký');
+	$myForm				= $this->myForm;
+	$myForm->prepare();
+?>
+
+<div class="form-box" id="login-box">
+    <div class="header">Đăng ký tài khoản</div>
+	<?php echo $this->form()->openTag($myForm);?>
+        <div class="body bg-gray">
+	        <?php
+		        echo $this->partialLoop('frontend-form-register.phtml', array(
+			        array('elm' => $myForm->get('username'), 'required' => true),
+			        array('elm' => $myForm->get('fullname')),
+			        array('elm' => $myForm->get('email'), 'required' => true),
+			        array('elm' => $myForm->get('password'), 'required' => true),
+			        array('elm' => $myForm->get('confirmPassword'), 'required' => true),
+		        ));
+	        ?>
+        </div>
+        <div class="footer">
+            <button type="submit" class="btn bg-olive btn-block">Đăng ký</button>
+            <a href="login.html" class="text-center">Tôi đã có tài khoản</a>
+        </div>
+	    <?php echo $this->form()->closeTag();?>
+
+</div>
+

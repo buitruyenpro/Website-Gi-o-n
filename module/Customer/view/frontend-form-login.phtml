@@ -1,0 +1,19 @@
+<?php
+	
+	$element	= $this->elm;
+	
+	switch ($this->type) {
+		case 'hidden':
+			$xhtml	= $this->formHidden($element);
+			break;
+		default:
+			$xhtml = '<div class="form-group" style="margin-bottom: -14px;">
+								'.$this->formElement($element).$this->formError($element).'
+						</div>';
+						
+			break;
+	}
+	
+	echo $xhtml;
+	
+?>

@@ -1,0 +1,37 @@
+﻿<?php
+	$urlCSS   = URL_TEMPLATE . '/frontend/css';
+	$urlJS    = URL_TEMPLATE . '/frontend/js';
+	$urlImage = URL_TEMPLATE . '/frontend/image';
+?>
+<html>
+<head>
+	<?php echo $this->doctype(); ?>
+	<?php
+		
+		// Meta
+		echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0')
+			->appendName('description', 'Đăng nhập tài khoản')
+			->setCharset('utf-8');
+		
+		echo $this->headLink()->appendStylesheet(array(
+			'rel'  => 'shortcut icon',
+			'type' => 'image/x-icon',
+			'href' => $urlImage . '/favicon.ico'
+		), 'PREPEND')
+			->appendStylesheet($urlCSS . '/bootstrap.min.css')
+			->appendStylesheet($urlCSS . '/font-awesome.min.css')
+			->appendStylesheet($urlCSS . '/AdminLTE.css');
+		
+		echo $this->headScript()->appendFile($urlJS . '/html5shiv.js')
+			->appendFile($urlJS . '/respond.min.js')
+			->appendFile($urlJS . '/jquery.min.js')
+			->appendFile($urlJS . '/bootstrap.min.js')
+	
+	?>
+</head>
+
+<body class="bg-black">
+<!-- CONTENT -->
+<?php echo $this->content; ?>
+</body>
+</html>

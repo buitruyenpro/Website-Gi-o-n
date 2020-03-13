@@ -17,6 +17,7 @@
 			echo $this->form()->openTag($myForm);
 				echo $this->partialLoop('form_row.phtml', array(
 						array('elm' => $myForm->get('name')),
+						array('elm' => $myForm->get('time'),'type' => 'time'),
 						array('elm' => $myForm->get('parent')),
 						array('elm' => $myForm->get('status')),
 						array('elm' => $myForm->get('description')),

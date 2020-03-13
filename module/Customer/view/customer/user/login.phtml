@@ -1,0 +1,34 @@
+<?php
+	$this->headTitle('Đăng nhập');
+	$myForm = $this->myForm;
+	$myForm->prepare();
+?>
+
+
+<div class="form-box" id="login-box">
+    <div class="header">Đăng nhập</div>
+	<?php echo $this->msgError;?>
+	<?php echo $this->form()->openTag($myForm); ?>
+    
+    <div class="body bg-gray">
+	   
+		<?php
+			echo $this->partialLoop('frontend-form-login.phtml', array(
+				array('elm' => $myForm->get('email')),
+				array('elm' => $myForm->get('password')),
+			));
+		?>
+        <div class="form-group">
+            <input type="checkbox" name="remember_me"/> Nhớ mật khẩu
+        </div>
+    </div>
+
+    <div class="footer">
+        <button type="submit" class="btn bg-olive btn-block">Đăng nhập</button>
+
+        <p><a href="#">Quên mật khẩu</a></p>
+
+        <a href="<?php echo $this->LinkRegister(); ?>" class="text-center">Đăng ký tài khoản</a>
+    </div>
+	<?php echo $this->form()->closeTag(); ?>
+</div>

@@ -2,23 +2,96 @@
 <?php echo $this->render('area_toolbar.phtml'); ?>
 
 <!-- NOTICE -->
-<?php echo $this->flashMessenger()->render();?>
-<?php echo $this->myForm->showMessage();?>
+<?php echo $this->flashMessenger()->render(); ?>
+<?php echo $this->myForm->showMessage(); ?>
 
 <div class="box box-info">
-	<div class="box-body">
+    <div class="box-body">
 		<?php
-			$myForm				= $this->myForm;
+			$myForm = $this->myForm;
 			$myForm->prepare();
 			echo $this->form()->openTag($myForm);
+			echo $this->partialLoop('form_row.phtml', array(
+				array('elm' => $myForm->get('name')),
+				array('elm' => $myForm->get('ordering')),
+				array('elm' => $myForm->get('status')),
+				array('elm' => $myForm->get('id'), 'type' => 'hidden'),
+				array('elm' => $myForm->get('action'), 'type' => 'hidden'),
+			));
+		?>
+
+        <div class="checkbox_page">
+            <span class="control-label"><label for="status" style="margin-left: -203px;" class="col-xs-3 control-label">Truy cập trang</label></span>
+			
+			<?php
 				echo $this->partialLoop('form_row.phtml', array(
-						array('elm' => $myForm->get('name')),
-						array('elm' => $myForm->get('ordering')),
-						array('elm' => $myForm->get('status')),
-						array('elm' => $myForm->get('id'), 'type' => 'hidden'),
-						array('elm' => $myForm->get('action'), 'type' => 'hidden'),
+					
+					array('elm' => $myForm->get('group'), 'type' => 'check_page', 'number' => 1),
+					array('elm' => $myForm->get('user'), 'type' => 'check_page', 'number' => 2),
+					array('elm' => $myForm->get('category'), 'type' => 'check_page', 'number' => 3),
+					array('elm' => $myForm->get('book'), 'type' => 'check_page', 'number' => 4),
 				));
+			?>
+
+        </div>
+		
+		<?php
+			$arrNumber = [1, 2, 3, 4];
+			foreach ($arrNumber as $key => $value) {
+				
+				
+				?>
+                <div class="container">
+                    <!-- The Modal -->
+                    <div class="modal fade" id="myModal_<?php echo $value; ?>">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Các hành động</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div>
+										<?php
+											
+											echo $this->partialLoop('form_row.phtml', array(
+												array('elm' => $myForm->get('check_action_status'.$value.':'), 'type' => 'check_action'),
+												array('elm' => $myForm->get('check_action_multi-status'.$value.':'), 'type' => 'check_action'),
+												array('elm' => $myForm->get('check_action_form'.$value.':'), 'type' => 'check_action'),
+												array('elm' => $myForm->get('check_action_delete'.$value.':'), 'type' => 'check_action'),
+												array('elm' => $myForm->get('check_action_multi-delete'.$value.':'), 'type' => 'check_action'),
+												array('elm' => $myForm->get('check_action_view'.$value.':'), 'type' => 'check_action'),
+												array('elm' => $myForm->get('check_action_ordering'.$value.':'), 'type' => 'check_action'),
+												array('elm' => $myForm->get('check_action_groupACP'.$value.':'), 'type' => 'check_action'),
+											));
+										
+										
+										?>
+                                    </div>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Đóng cửa sổ
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+				
+				<?php
+			}
+		?>
+		<?php
 			echo $this->form()->closeTag();
 		?>
-	</div>
-</div>
+  
+  
+  
+  
+  

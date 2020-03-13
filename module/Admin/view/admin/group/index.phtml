@@ -31,9 +31,10 @@
 			$name		= $item->name;
 			$created	= date('H:i:s d-m-Y', strtotime($item->created));
 			$createdBy	= $item->created_by;
-			$modified	= date('H:i:s d-m-Y', strtotime($item->modified));
+			$modified   = !empty($item->modified)?date('H:i:s d-m-Y', strtotime($item->modified)):'Chưa chỉnh sửa';
 			$modifiedBy	= $item->modified_by;
 			$status		= $this->cmsButtonStatus($id, $item->status);
+			$groupACP	= $this->cmsButtonGroupACP($id, $item->group_acp);
 			$ordering	= $this->zvnFormInput('ordering['.$id.']', $item->ordering, array('class' => 'input-ordering'));
 			$cid		= $this->zvnFormInput('cid[]', $id, array('type' => 'checkbox'));
 			$linkEdit	= $this->cmsLinkAdmin(array('controller' => $currentController, 'action' => 'form', 'id' => $id));
@@ -46,6 +47,7 @@
 								<td>'.$modifiedBy.'</td>
 								<td>'.$ordering.'</td></td>
 								<td>'.$status.'</td>
+								<td>'.$groupACP.'</td>
 								<td>'.$id.'</td>
 							</tr>';
 		}
@@ -90,9 +92,10 @@
 						<?php echo $this->cmsLinkSort('Tạo bởi ai', 'created_by', $ssFilter); ?>
 						<?php echo $this->cmsLinkSort('Ngày chỉnh sửa', 'modified', $ssFilter); ?>
 						<?php echo $this->cmsLinkSort('Chỉnh sửa bởi ai', 'modified_by', $ssFilter); ?>
-						<?php echo $this->cmsLinkSort('Thứ tự', 'ordering', $ssFilter); ?>
+						<?php echo $this->cmsLinkSort('Vị trí', 'ordering', $ssFilter,array('style'=>'width:8%')); ?>
 						<?php echo $this->cmsLinkSort('Trạng thái', 'status', $ssFilter); ?>
-						<?php echo $this->cmsLinkSort('Mã', 'id', $ssFilter); ?>
+						<?php echo $this->cmsLinkSort('Quyền truy cập ACP', 'group_acp', $ssFilter); ?>
+						<?php echo $this->cmsLinkSort('Mã', 'id', $ssFilter,array('style'=>'width:5%')); ?>
 					</tr>
 				</thead>
 

@@ -84,10 +84,10 @@ class Image {
 			$fileThumb	= PATH_FILES . '/books/thumb/80x120/' . $fileName;
 			@unlink($fileThumb);
 		}
-		
-		if($options['task'] == 'slider'){
-			$fileMain	= PATH_FILES . '/sliders/' . $fileName;
+		if($options['task'] == 'book-document'){
+			$fileMain	= PATH_FILES . '/documents/' . $fileName;
 			@unlink($fileMain);
 		}
+		
 	}
 }

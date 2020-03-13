@@ -11,16 +11,16 @@
 	$strInputHidden		= $inputHiddenOrder . $inputHiddenOrderBy . $inputStatusID . $inputStatusValue;
 
 	// CREATE SELECTBOX
-	$arrKeywordType 	= array( 'username'	=> 'Search by USERNAME', 'id' => 'Search by ID', 'email' => 'Search by EMAIL', 'all' => 'Search by ALL');
+	$arrKeywordType 	= array( 'username'	=> 'Tìm kiếm theo tên', 'id' => 'Tìm kiếm theo mã', 'email' => 'Tìm kiếm theo email', 'all' => 'Tìm kiếm tất cả');
 	$slbKeywordType 	= $this->zvnFormSelect('filter_keyword_type', null , $arrKeywordType, $ssFilter['filter_keyword_type']);
-	$slbFilterStatus	= $this->zvnFormSelect('filter_status', '-- Select a status --', array('active' => 'Active', 'inactive' => 'Inactive'), $ssFilter['filter_status']);
-	$slbFilterGroup		= $this->zvnFormSelect('filter_group', '-- Select a group --', $this->slbGroup, $ssFilter['filter_group']);
+	$slbFilterStatus	= $this->zvnFormSelect('filter_status', '-- Chọn trạng thái --', array('active' => 'Active', 'inactive' => 'Inactive'), $ssFilter['filter_status']);
+	$slbFilterGroup		= $this->zvnFormSelect('filter_group', '-- Chọn nhóm chức vụ --', $this->slbGroup, $ssFilter['filter_group']);
 	
 	// CREATE INPUT
 	$inputKeyword		= $this->zvnFormInput('filter_keyword_value', $ssFilter['filter_keyword_value'], array('class' => 'form-control input-sm'));
 	
 	// CREATE BUTTON
-	$btnClear			= $this->zvnFormButton('btn-clear', 'btn-clear', 'Clear', array('class' => 'btn-default'));
+	$btnClear			= $this->zvnFormButton('btn-clear', 'btn-clear', 'Làm rỗng', array('class' => 'btn-default'));
 	$btnSearch			= $this->zvnFormButton('btn-go', 'btn-go', 'Search!', array('class' => 'btn-primary'));
 	
 	// DATA ITEM
@@ -34,7 +34,7 @@
 			$avatar		= $item->avatar;
 			$created	= date('H:i:s d-m-Y', strtotime($item->created));
 			$createdBy	= $item->created_by;
-			$modified	= date('H:i:s d-m-Y', strtotime($item->modified));
+			$modified   = !empty($item->modified)?date('H:i:s d-m-Y', strtotime($item->modified)):'Chưa chỉnh sửa';
 			$modifiedBy	= $item->modified_by;
 			$fullname	= $this->escapeHtml($item->fullname);
 			$groupName	= $item->group_name;
@@ -92,15 +92,15 @@
 				<thead>
 					<tr role="row">
 						<th class="small-col"><input type="checkbox" id="check-all" /></th>
-						<?php echo $this->cmsLinkSort('Username', 'username', $ssFilter); ?>
+						<?php echo $this->cmsLinkSort('Username', 'username', $ssFilter,array('style'=>'width:18%')); ?>
 						<?php echo $this->cmsLinkSort('Email', 'email', $ssFilter); ?>
-						<?php echo $this->cmsLinkSort('Fullname', 'fullname', $ssFilter); ?>
-						<?php echo $this->cmsLinkSort('Group', 'group_name', $ssFilter); ?>
-						<?php echo $this->cmsLinkSort('Created', 'created', $ssFilter); ?>
-						<?php echo $this->cmsLinkSort('Modified', 'modified', $ssFilter); ?>
-						<?php echo $this->cmsLinkSort('Ordering', 'ordering', $ssFilter, array('style'=>'width:8%')); ?>
-						<?php echo $this->cmsLinkSort('Status', 'status', $ssFilter, array('style'=>'width:8%')); ?>
-						<?php echo $this->cmsLinkSort('ID', 'id', $ssFilter, array('style'=>'width:5%')); ?>
+						<?php echo $this->cmsLinkSort('Họ và tên', 'fullname', $ssFilter); ?>
+						<?php echo $this->cmsLinkSort('Chức vụ', 'group_name', $ssFilter,array('style'=>'width:8%')); ?>
+						<?php echo $this->cmsLinkSort('Ngày tạo', 'created', $ssFilter); ?>
+						<?php echo $this->cmsLinkSort('Chỉnh sửa', 'modified', $ssFilter); ?>
+						<?php echo $this->cmsLinkSort('Thứ tự', 'ordering', $ssFilter, array('style'=>'width:8%')); ?>
+						<?php echo $this->cmsLinkSort('Trạng thái', 'status', $ssFilter, array('style'=>'width:10%')); ?>
+						<?php echo $this->cmsLinkSort('Mã', 'id', $ssFilter, array('style'=>'width:6%')); ?>
 					</tr>
 				</thead>
 

@@ -12,7 +12,7 @@ class CmsBreadcrumb extends AbstractHelper {
 		if(!empty($items)){
 			$i = 1;
 			foreach ($items as $item) {
-				$linkCategory	= $urlHelper('shopRoute/default', array('controller' => 'category', 'action' => 'index', 'id' => $item->id));
+				$linkCategory	= $urlHelper('customerRoute/default', array('controller' => 'category', 'action' => 'index', 'id' => $item->id));
 				
 				if($i == $total){
 					$result			.= sprintf('<a href="#">%s</a>', $item->name);

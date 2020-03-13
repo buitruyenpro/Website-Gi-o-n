@@ -177,10 +177,25 @@ class Book extends Form {
 	public function showMessage(){
 		$messages = $this->getMessages();
 		
+	
+		
 		if(empty($messages)) return false;
 		
 		$xhtml = '<div class="callout callout-danger">';
 		foreach($messages as $key => $msg){
+			
+			if ($key == 'name') {
+				$key = 'Tên giáo án';
+			} else if ($key == 'time') {
+				$key = 'Thời gian';
+			}else if ($key == 'category_id') {
+				$key = 'Nhóm giáo án';
+			}else if ($key == 'status') {
+				$key = 'Trạng thái';
+			}else if ($key == 'ordering') {
+				$key = 'Thứ tự';
+			}
+			
 			$xhtml .= sprintf('<p><b>%s:</b> %s</p>',ucfirst($key), current($msg));
 		}
 		$xhtml .= '</div>';

@@ -1,51 +1,96 @@
 <?php
 	
-	$element	= $this->elm;
-	$type 		= $this->type;
+	$element = $this->elm;
+	$type    = $this->type;
 	
 	switch ($this->type) {
 		case 'hidden':
-			$xhtml	= $this->formHidden($element);
+			$xhtml = $this->formHidden($element);
 			break;
 		case 'avatar':
-			$avatarName	= $element->getValue();
-			$xhtml		= '';
+			$avatarName = $element->getValue();
+			$xhtml      = '';
 			
-			if(!empty($avatarName)){
-				$avatarUrl = URL_FILES . '/users/thumb/'.$avatarName;
-				$xhtml	= sprintf('<div class="form-group"><label for="avatar" class="col-xs-3 control-label"></label><div class="col-xs-6">
-								<img src="%s" class="img-thumbnail"></div></div>',$avatarUrl);
+			if (!empty($avatarName)) {
+				$avatarUrl = URL_FILES . '/users/thumb/' . $avatarName;
+				$xhtml     = sprintf('<div class="form-group"><label for="avatar" class="col-xs-3 control-label"></label><div class="col-xs-6">
+								<img src="%s" class="img-thumbnail"></div></div>', $avatarUrl);
 			}
 			
 			break;
-		case 'slider':
-			$imgName	= $element->getValue();
-			$xhtml		= '';
-				
-			if(!empty($imgName)){
-				$imgUrl = URL_FILES . '/sliders/'.$imgName;
-				$xhtml	= sprintf('<div class="form-group"><label for="avatar" class="col-xs-3 control-label"></label><div class="col-xs-6">
-							<img src="%s" class="img-thumbnail"></div></div>',$imgUrl);
-			}
-				
-			break;
+		
 		case 'book':
-			$imgName	= $element->getValue();
-			$xhtml		= '';
-				
-			if(!empty($imgName)){
-				$imgUrl = URL_FILES . '/books/thumb/140x190/'.$imgName;
-				$xhtml	= sprintf('<div class="form-group"><label for="avatar" class="col-xs-3 control-label"></label><div class="col-xs-6">
-							<img src="%s" class="img-thumbnail"></div></div>',$imgUrl);
+			$imgName = $element->getValue();
+			$xhtml   = '';
+			
+			if (!empty($imgName)) {
+				$imgUrl = URL_FILES . '/books/thumb/140x190/' . $imgName;
+				$xhtml  = sprintf('<div class="form-group"><label for="avatar" class="col-xs-3 control-label"></label><div class="col-xs-6">
+							<img src="%s" class="img-thumbnail"></div></div>', $imgUrl);
 			}
-				
+			
+			break;
+		case 'time':
+			$xhtml = sprintf('<div class="form-group" style="width: 1057px;margin-left: 11px;">
+                                       %s
+                                        <div class="input-group col-xs-6">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                           %s
+                                        </div><!-- /.input group -->
+                                    </div>',
+				$this->formLabel($element), $this->formElement($element));
+			break;
+			break;
+		
+		case 'check_page':
+			$xhtml = sprintf('<p></p>
+            <div style="display: inline-flex;">
+                <!-- Button to Open the Modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_' . $this->number . '">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Hành động
+                </button>
+                <span>&nbsp;</span>
+                <div class=" check_page_item">
+                %s
+                    <div class="state p-info">
+                        <label>%s</label>
+                    </div>
+                </div>
+            </div>
+            <p></p>',
+				$this->formElement($element), $this->formLabel($element));
+			break;
+		
+		case 'check_action':
+			$xhtml = sprintf('<p></p>
+            <div style="display: inline-flex;">
+            
+                <span>&nbsp;</span>
+                <div class=" check_page_item">
+                %s
+                    <div class="state p-info">
+                        <label>%s</label>
+                    </div>
+                </div>
+            </div>
+            <p></p>',
+				$this->formElement($element), $this->formLabel($element));
+			break;
+		case 'hidden_form_school':
+			$xhtml = null;
+			break;
+		case 'hidden_form_nest':
+			$xhtml = null;
 			break;
 		default:
-			$xhtml = sprintf('<div class="form-group">%s<div class="col-xs-6">%s</div></div>', 
-								$this->formLabel($element),$this->formElement($element));
+			$xhtml = sprintf('<div class="form-group">%s<div class="col-xs-6">%s</div></div>',
+				$this->formLabel($element), $this->formElement($element));
 			break;
 	}
 	
 	echo $xhtml;
-	
+
 ?>

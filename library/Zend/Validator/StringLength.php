@@ -23,8 +23,8 @@ class StringLength extends AbstractValidator
      */
     protected $messageTemplates = array(
         self::INVALID   => "Invalid type given. String expected",
-        self::TOO_SHORT => "The input is less than %min% characters long",
-        self::TOO_LONG  => "The input is more than %max% characters long",
+        self::TOO_SHORT => "Đầu vào dài hơn %min% ký tự",
+        self::TOO_LONG  => "Đầu vào ngắn hơn %max% ký tự",
     );
 
     /**

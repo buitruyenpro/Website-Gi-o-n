@@ -9,7 +9,7 @@
 	
 	foreach ($this->_data as $category){
 		$classLI	= ($category->level == 1) ? 'cat-header' : '';
-		$link		= $urlHelper('shopRoute/default', array('controller' => 'category', 'action' => 'index', 'id' => $category->id));
+		$link		= $urlHelper('customerRoute/default', array('controller' => 'category', 'action' => 'index', 'id' => $category->id));
 		$name		= $category->name;
 		
 		if($category->right - $category->left == 1 || $category->level == 3){

@@ -1,30 +1,128 @@
-<?php 
-	// <sup style="font-size: 20px">%</sup>
-	$arrBoxes = array(
-		array('bg-aqua', 150, 'New Orders', 'ion-bag', '#'),		
-		array('bg-green', '53<sup style="font-size: 20px">%</sup>', 'Bounce Rate', 'ion-stats-bars', '#'),		
-		array('bg-yellow', 44, 'User Registrations', 'ion-person-add', '#'),		
-		array('bg-red', 65, 'Unique Visitors', 'ion-pie-graph', '#'),		
-	);
-
-	$xhtmlBox = '';
-	foreach($arrBoxes as $box){
-		$xhtmlBox .= sprintf('<div class="col-lg-3 col-xs-6">
-								<div class="small-box %s">
-									<div class="inner">
-										<h3>%s</h3>
-										<p>%s</p>
-									</div>
-									<div class="icon">
-										<i class="ion %s"></i>
-									</div>
-									<a href="%s" class="small-box-footer"> More info <i
-										class="fa fa-arrow-circle-right"></i>
-									</a>
-								</div>
-							</div>', $box[0], $box[1], $box[2], $box[3], $box[4]);
+<?php
+	
+	use Zend\Json\Json;
+	
+	$ssFilter          = $this->ssFilter;
+	$currentController = 'book';
+	
+	// CREATE INPUT HIDDEN
+	$inputHiddenOrder   = $this->zvnFormHidden('order', $ssFilter['order']);
+	$inputHiddenOrderBy = $this->zvnFormHidden('order_by', $ssFilter['order_by']);
+	$inputStatusID      = $this->zvnFormHidden('status_id', null);
+	$inputStatusValue   = $this->zvnFormHidden('status_value', null);
+	
+	$strInputHidden = $inputHiddenOrder . $inputHiddenOrderBy . $inputStatusID . $inputStatusValue;
+	// DATA ITEM
+	$xhtmlItems = '';
+	if (!empty($this->items)) {
+		foreach ($this->items as $item) {
+			
+			$class = $this->cycle(array('odd', 'even'))->next();
+			$id    = $item->id;
+			$name  = $item->name;
+			
+			// Picture
+			$picture     = $item->picture;
+			$document    = $item->document;
+			$pictureURL  = URL_FILES . '/books/thumb/80x120/pdf-book.png';
+			$documentURL = URL_FILES . '/documents/' . $document;
+			if (!empty($picture)) {
+				$pictureURL = URL_FILES . '/books/thumb/80x120/' . $picture;
+			}
+			
+			$created   = date('d-m-Y', strtotime($item->created));
+			$createdBy = $item->created_by;
+			$catName   = $item->category_name;
+			
+			$status   = $this->cmsButtonStatus($id, $item->status, array("task" => "customer"));
+			$linkView = $this->cmsLinkCustomer(array('controller' => $currentController, 'action' => 'view', 'id' => $id));
+			
+			$butonAction  = '<p>Không có quyền truy cập</p>';
+			$levelCurrent = $this->ordering;
+			$levelBook    = $item->level;
+			
+		
+			if ($levelCurrent >= $levelBook) {
+				$butonAction = '<div class="btn-group">
+                                          
+                                            <button type="button" class="btn btn-primary"><i class="fa fa-eye"></i></button>
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="' . $linkView . '">Xem tài liệu</a></li>
+                                                <li><a href="' . $documentURL . '" download>Tải tài liệu</a></li>
+                                          
+                                            </ul>
+                                        </div>';
+			}
+			
+			
+			$ordering = $this->zvnFormInput('ordering[' . $id . ']', $item->ordering, array('class' => 'input-ordering'));
+			$cid      = $this->zvnFormInput('cid[]', $id, array('type' => 'checkbox'), $item->status);
+			
+			$linkEdit = null;
+			
+			if ($item->status == 0) {
+				$linkEdit = '<a href="' . $this->cmsLinkCustomer(array('controller' => $currentController, 'action' => 'form', 'id' => $id)) . '">';
+			}
+			$xhtmlItems .= '<tr class="' . $class . '">
+								<td>' . $cid . '</td>
+								<td><img src="' . $pictureURL . '" class="img-thumbnail" alt="' . $name . '"></td>
+								<td>' . $linkEdit . $name . '</a></td>
+								<td>' . $created . '</td>
+								<td>' . $catName . '</td>
+								<td>' . $this->cmsInfoAuthor($created, $createdBy) . '</td>
+								<td>' . $butonAction . '</td>
+								<td>' . $status . '</td>
+							</tr>';
+			
+		}
 	}
-?>      
-<div class="row">
-	<?php echo $xhtmlBox;?>     		
+	// LINK FORM SUBMIT
+	$linkFormSubmit = $this->cmsLinkCustomer(array('controller' => $currentController, 'action' => 'filter'));
+?>
+
+<!-- BUTTON -->
+<?php echo $this->render('area_toolbar-customer.phtml'); ?>
+<!-- NOTICE -->
+<?php echo $this->flashMessenger()->render(); ?>
+
+<div class="box box-info">
+    <form name="adminForm" id="adminForm"
+          action="<?php echo $linkFormSubmit; ?>" method="post">
+
+        <div class="box-body table-responsive">
+            <div class="dataTables_wrapper" role="grid">
+                <table
+                        class="table table-bordered table-striped dataTable text-center">
+                    <!-- COLUMN TITLE -->
+                    <thead>
+                    <tr role="row">
+                        <th class="small-col"><input type="checkbox" id="check-all"/></th>
+						<?php echo $this->cmsLinkSort('Hình ảnh', 'picture', $ssFilter); ?>
+						<?php echo $this->cmsLinkSort('Tên giáo án', 'name', $ssFilter, array('style' => 'width:10%')); ?>
+						<?php echo $this->cmsLinkSort('Ngày đăng', 'created', $ssFilter); ?>
+						<?php echo $this->cmsLinkSort('Thể loại', 'category_name', $ssFilter); ?>
+						<?php echo $this->cmsLinkSort('Đăng bởi', 'modified', $ssFilter); ?>
+						<?php echo $this->cmsLinkSort('Hành động', 'null', $ssFilter, array('style' => 'width:10%')); ?>
+						<?php echo $this->cmsLinkSort('Trạng thái', 'status', $ssFilter, array('style' => 'width:10%')); ?>
+                    </tr>
+                    </thead>
+
+                    <!-- CONTENT TABLE -->
+                    <tbody><?php echo $xhtmlItems; ?></tbody>
+                </table>
+
+                <!-- PAGINATION -->
+				<?php
+					$currentURL = $this->cmsLinkCustomer(array('controller' => $currentController, 'action' => 'index'));
+					echo $this->paginationControl($this->paginator, 'sliding', 'paginator.phtml', array('currentURL' => $currentURL));
+				?>
+            </div>
+        </div>
+        <!-- INPUT HIDDEN -->
+		<?php echo $strInputHidden; ?>
+    </form>
 </div>

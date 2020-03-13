@@ -17,14 +17,13 @@
 	$arrKeywordType    = array('name' => 'Tìm kiếm theo tên', 'id' => 'Tìm kiếm theo mã', 'all' => 'Tìm kiếm tất cả');
 	$slbKeywordType    = $this->zvnFormSelect('filter_keyword_type', null, $arrKeywordType, $ssFilter['filter_keyword_type']);
 	$slbFilterStatus   = $this->zvnFormSelect('filter_status', '-- Chọn trạng thái --', array('active' => 'Kích hoạt', 'inactive' => 'Không kích hoạt'), $ssFilter['filter_status']);
-	$slbFilterSpecial  = $this->zvnFormSelect('filter_special', '-- Chọn định dạng --', array('yes' => 'PDF', 'no' => 'DOCX'), $ssFilter['filter_special']);
 	$slbFilterCategory = $this->zvnFormSelect('filter_category', '-- Chọn thể loại --', $this->slbCategory, $ssFilter['filter_category']);
 	
 	// CREATE INPUT
 	$inputKeyword = $this->zvnFormInput('filter_keyword_value', $ssFilter['filter_keyword_value'], array('class' => 'form-control input-sm'));
 	
 	// CREATE BUTTON
-	$btnClear  = $this->zvnFormButton('btn-clear', 'btn-clear', 'Clear', array('class' => 'btn-default'));
+	$btnClear  = $this->zvnFormButton('btn-clear', 'btn-clear', 'Làm rỗng', array('class' => 'btn-default'));
 	$btnSearch = $this->zvnFormButton('btn-go', 'btn-go', 'Search!', array('class' => 'btn-primary'));
 	
 	// DATA ITEM
@@ -39,8 +38,8 @@
 			// Picture
 			$picture     = $item->picture;
 			$document    = $item->document;
-			$pictureURL  = URL_FILES . '/books/thumb/no-avatar.png';
-			$documentURL = URL_FILES . '/documents/' .$document;
+			$pictureURL  = URL_FILES . '/books/thumb/80x120/pdf-book.png';
+			$documentURL = URL_FILES . '/documents/' . $document;
 			if (!empty($picture)) {
 				$pictureURL = URL_FILES . '/books/thumb/80x120/' . $picture;
 			}
@@ -54,9 +53,15 @@
 			$catName    = $item->category_name;
 			
 			$status   = $this->cmsButtonStatus($id, $item->status);
+			
 			$linkView = $this->cmsLinkAdmin(array('controller' => $currentController, 'action' => 'view', 'id' => $id));
 			
-			$butonAction = '<div class="btn-group">
+			$butonAction  = '<p>Không có quyền truy cập</p>';
+			$levelCurrent = (int)$this->ordering;
+			$levelBook    = (int)$item->level;
+			$access       = 1;
+			if ($levelCurrent <= $levelBook) {
+				$butonAction = '<div class="btn-group">
                                           
                                             <button type="button" class="btn btn-primary"><i class="fa fa-eye"></i></button>
                                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -69,16 +74,21 @@
                                           
                                             </ul>
                                         </div>';
+				$access      = 0;
+			}
+			
 			
 			$ordering = $this->zvnFormInput('ordering[' . $id . ']', $item->ordering, array('class' => 'input-ordering'));
-			$cid      = $this->zvnFormInput('cid[]', $id, array('type' => 'checkbox'));
-			$linkEdit = $this->cmsLinkAdmin(array('controller' => $currentController, 'action' => 'form', 'id' => $id));
-			
+			$cid      = $this->zvnFormInput('cid[]', $id, array('type' => 'checkbox'), $access);
+			$linkEdit = null;
+			if ($levelCurrent <= $levelBook) {
+				$linkEdit = '<a href="' . $this->cmsLinkAdmin(array('controller' => $currentController, 'action' => 'form', 'id' => $id)) . '">';
+			}
 			
 			$xhtmlItems .= '<tr class="' . $class . '">
 								<td>' . $cid . '</td>
 								<td><img src="' . $pictureURL . '" class="img-thumbnail" alt="' . $name . '"></td>
-								<td><a href="' . $linkEdit . '">' . $name . '</a></td>
+								<td>' . $linkEdit . $name . '</a></td>
 								<td>' . $price . '</td>
 								<td>' . $catName . '</td>
 								<td>' . $this->cmsInfoAuthor($created, $createdBy) . '</td>
@@ -114,7 +124,7 @@
             <!-- FILTER STATUS -->
             <div class="col-xs-8">
                 <div class="dataTables_filter pull-right">
-					<?php echo $slbFilterSpecial . ' ' . $slbFilterCategory . ' ' . $slbFilterStatus; ?>
+					<?php echo $slbFilterCategory . ' ' . $slbFilterStatus; ?>
                 </div>
             </div>
         </div>
@@ -130,7 +140,7 @@
 						<?php echo $this->cmsLinkSort('Hình ảnh', 'picture', $ssFilter); ?>
 						<?php echo $this->cmsLinkSort('Tên giáo án', 'name', $ssFilter, array('style' => 'width:10%')); ?>
 						<?php echo $this->cmsLinkSort('Ngày đăng', 'price', $ssFilter); ?>
-						<?php echo $this->cmsLinkSort('Thể loại', 'category_name', $ssFilter); ?>
+						<?php echo $this->cmsLinkSort('Nhóm giáo án', 'category_name', $ssFilter); ?>
 						<?php echo $this->cmsLinkSort('Đăng bởi', 'created', $ssFilter); ?>
 						<?php echo $this->cmsLinkSort('Chỉnh sửa bởi ai', 'modified', $ssFilter, array('style' => 'width:15%')); ?>
 						<?php echo $this->cmsLinkSort('Thứ tự', 'ordering', $ssFilter, array('style' => 'width:10%')); ?>

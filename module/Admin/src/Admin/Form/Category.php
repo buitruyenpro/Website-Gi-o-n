@@ -29,6 +29,8 @@ class Category extends Form {
 				),
 		));
 		
+		
+		
 		// Action
 		$this->add(array(
 				'name' 			=> 'action',
@@ -47,13 +49,32 @@ class Category extends Form {
 						'placeholder'	=> 'Enter name',
 				),
 				'options'		=> array(
-						'label'				=> 'Name',
+						'label'				=> 'Tên nhóm giáo án',
 						'label_attributes'	=> array(
 								'for'		=> 'name',
 								'class'		=> 'col-xs-3 control-label',
 						)
 				),
 		));
+		
+		// Name
+		$this->add(array(
+			'name'			=> 'time',
+			'type'			=> 'Text',
+			'attributes'	=> array(
+				'class'			=> 'form-control pull-right',
+				'id'			=> 'reservationtime',
+				'placeholder'	=> 'Thời gian nộp bài',
+			),
+			'options'		=> array(
+				'label'				=> 'Thời gian',
+				'label_attributes'	=> array(
+					'for'		=> 'name',
+					'class'		=> 'col-xs-3 control-label',
+				)
+			),
+		));
+		
 		
 		// Description
 		$this->add(array(
@@ -64,7 +85,7 @@ class Category extends Form {
 						'id'			=> 'description',
 				),
 				'options'		=> array(
-						'label'				=> 'Description',
+						'label'				=> 'Miêu tả',
 						'label_attributes'	=> array(
 								'for'		=> 'description',
 								'class'		=> 'col-xs-3 control-label',
@@ -78,9 +99,9 @@ class Category extends Form {
 				'name'			=> 'parent',
 				'type'			=> 'Select',
 				'options'		=> array(
-						'empty_option'	=> '-- Select category --',
+						'empty_option'	=> '-- Chọn nhóm --',
 						'value_options'	=> $categoryTable->itemInSelectbox(null, array('task' => 'form-category')),
-						'label'	=> 'Category',
+						'label'	=> 'Nhóm giáo án',
 						'label_attributes'	=> array(
 								'for'		=> 'parent',
 								'class'		=> 'col-xs-3 control-label',
@@ -96,12 +117,12 @@ class Category extends Form {
 				'name'			=> 'status',
 				'type'			=> 'Select',
 				'options'		=> array(
-						'empty_option'	=> '-- Select status --',
+						'empty_option'	=> '-- Chọn trạng thái --',
 						'value_options'	=> array(
-								'active'	=> 'Active',
-								'inactive'	=> 'InActive',
+								'active'	=> 'Đóng giáo án',
+								'inactive'	=> 'Mở giáo án',
 						),
-						'label'	=> 'Status',
+						'label'	=> 'Trạng thái',
 						'label_attributes'	=> array(
 								'for'		=> 'status',
 								'class'		=> 'col-xs-3 control-label',
@@ -121,6 +142,17 @@ class Category extends Form {
 		
 		$xhtml = '<div class="callout callout-danger">';
 		foreach($messages as $key => $msg){
+			
+			if ($key == 'name') {
+				$key = 'Tên nhóm';
+			} else if ($key == 'time') {
+				$key = 'Thời gian';
+			}else if ($key == 'parent') {
+				$key = 'Nhóm giáo án';
+			}else if ($key == 'status') {
+				$key = 'Trạng thái';
+			}
+			
 			$xhtml .= sprintf('<p><b>%s:</b> %s</p>',ucfirst($key), current($msg));
 		}
 		$xhtml .= '</div>';

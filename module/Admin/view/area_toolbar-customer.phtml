@@ -1,0 +1,34 @@
+<?php 
+	//$name, $icon, $type, $showTotal = null, $link = null
+	$currentController	= $this->layout()->controller;
+	$currentAction		= $this->layout()->action;
+	
+	switch ($currentAction) {
+		case 'index':
+			$linkAdd		= $this->cmsLinkCustomer(array('controller' => $currentController, 'action' => 'form'));
+			$btnAdd			= $this->cmsButtonToolbar('Nộp bài', 'fa-plus-square-o', null, null, $linkAdd);
+			$btnDelete		= $this->cmsButtonToolbar('Xóa bài', 'fa-minus-square-o', 'delete', 'yes', null);
+			
+			$strToolbar 	= $btnAdd  . $btnDelete;
+			
+			break;
+			
+		case 'form':
+			$btnSave		= $this->cmsButtonToolbar('Nộp bài', 'fa-save', 'save', null, null);
+			$btnSaveClose	= $this->cmsButtonToolbar('Nộp và đóng', 'fa-folder-open-o', 'save-close', null, null);
+			$btnSaveNew		= $this->cmsButtonToolbar('Nộp và mới', 'fa-plus-square', 'save-new', null, null);
+			
+			$linkCancel		= $this->cmsLinkCustomer(array('controller' => $currentController, 'action' => 'index'));
+			$btnCancel		= $this->cmsButtonToolbar('Trở về', 'fa-arrow-circle-left', null, null, $linkCancel);
+			$strToolbar 	= $btnSave . $btnSaveClose . $btnSaveNew . $btnCancel;
+			break;
+			
+		default:
+			break;
+	}
+?>
+<div class="row">
+	<div class="text-center">
+		<?php echo $strToolbar;?>
+	</div>
+</div>

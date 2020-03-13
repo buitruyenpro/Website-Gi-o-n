@@ -10,7 +10,7 @@
 		$imgUrl			= URL_FILES . '/books/thumb/140x190/' . $book->picture;
 		$name			= $book->name;
 		$linkInfoBook	= '#';
-		$linkPopup		= $urlHelper('shopRoute/default',array('controller' => 'book', 'action' => 'popup'));
+		$linkPopup		= $urlHelper('customerRoute/default',array('controller' => 'book', 'action' => 'popup'));
 		
 		$price			= $cmsInfoPrice($book->price, $book->sale_off, array('task' => 'price-frontend'));
 		

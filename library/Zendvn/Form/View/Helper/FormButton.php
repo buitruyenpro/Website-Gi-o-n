@@ -6,7 +6,7 @@ use Zend\Form\View\Helper\FormButton as ZendFormButton;
 
 class FormButton extends ZendFormButton
 {
-    public function __invoke($name, $value, $label, $attributes = null)
+    public function __invoke($name = null, $value= null, $label= null, $attributes = null)
     {
     	$attributes['class']	= 'btn btn-flat ' . (!empty($attributes['class']) ? $attributes['class'] : 'btn-default');
     	$attributes['type']		= !empty($attributes['type']) ? $attributes['type'] : 'submit';
